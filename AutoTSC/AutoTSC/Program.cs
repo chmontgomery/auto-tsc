@@ -15,8 +15,16 @@ namespace AutoTSC
 		private static FileSystemWatcher _watcher;
 		// default path
 		private static string _pathToTypescript = @"C:\repos\vlaunchpro\Dev\src\vLaunchPro.Web\Bundles\TypeScript";
-		private static readonly string _clientOutFile = _pathToTypescript + @"\VMware.Go.Client.generated.js";
-		private static readonly string _unitTestOutFile = _pathToTypescript + @"\_UnitTests\VMware.Go.ClientWithUnitTests.generated.js";
+
+		private static string ClientFilePath()
+		{
+			return _pathToTypescript + @"\VMware.Go.Client.generated.js";
+		}
+
+		private static string UnitTestFilePath()
+		{
+			return _pathToTypescript + @"\_UnitTests\VMware.Go.ClientWithUnitTests.generated.js";
+		}
 
 		private static void Main(string[] args)
 		{
@@ -48,7 +56,7 @@ namespace AutoTSC
 		{
 			IEnumerable<string> files = Directory.EnumerateFiles(_pathToTypescript, "*", SearchOption.AllDirectories)
 			                                     .Where(s => !s.Contains("_UnitTests") && !s.Contains("_G11n") && s.EndsWith(".ts"));
-			string clientTscCmd = files.Aggregate("--sourcemap --out \"" + _clientOutFile + "\" ",
+			string clientTscCmd = files.Aggregate("--sourcemap --out \"" + ClientFilePath() + "\" ",
 			                                      (current, file) => current + (file + " "));
 			//write command to file b/c it may be too long for the cmd line
 			File.WriteAllText("ClientTscCmdLine.generated.txt", clientTscCmd);
@@ -64,7 +72,7 @@ namespace AutoTSC
 		{
 			IEnumerable<string> files = Directory.EnumerateFiles(_pathToTypescript, "*", SearchOption.AllDirectories)
 			                                     .Where(s => !s.Contains("_G11n") && s.EndsWith(".ts"));
-			string unitTestTscCmd = files.Aggregate("--sourcemap --out \"" + _unitTestOutFile + "\" ",
+			string unitTestTscCmd = files.Aggregate("--sourcemap --out \"" + UnitTestFilePath() + "\" ",
 			                                        (current, file) => current + (file + " "));
 			//write command to file b/c it may be too long for the cmd line
 			File.WriteAllText("UnitTestTscCmdLine.generated.txt", unitTestTscCmd);
