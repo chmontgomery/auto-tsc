@@ -116,7 +116,7 @@ namespace AutoTSC
 			ProcessChangeOnlyOnce(ev, e =>
 			{
 				ConsoleWriteLineSeparator();
-				Console.WriteLine("File {0}: {1}", e.ChangeType.ToString().ToUpper(), e.FullPath);
+				Console.WriteLine("{0}: {1}", e.ChangeType.ToString().ToUpper(), e.FullPath);
 				ProcessChange(e.FullPath);
 			});
 		}
@@ -126,7 +126,7 @@ namespace AutoTSC
 			ProcessChangeOnlyOnce(ev, e =>
 			{
 				ConsoleWriteLineSeparator();
-				Console.WriteLine("File RENAMED to: \"{0}\"", e.FullPath);
+				Console.WriteLine("RENAMED to: \"{0}\"", e.FullPath);
 				ProcessChange(e.FullPath);
 			});
 		}
